@@ -11,7 +11,7 @@ trait AuthenticatesUsers
 {
 	use RedirectsUsers, ThrottlesLogins;
 	
-	  /**
+	/**
      * Show the application's login form.
      *
      * @return \Illuminate\View\View

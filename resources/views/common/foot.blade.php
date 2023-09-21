@@ -39,6 +39,13 @@ var APP_URL = "{{(url('/'))}}";
 <script src="{{ url('/backend/plugins/chartjs/Chart.min.js') }}"></script>-->
 @endif
 <!-- Sparkline -->
+
+<script src="/backend/datatables/datatables.bundle.js"></script>
+
+<!-- end::Datatable -->
+<!-- begin::cutomjs -->
+<script src="/backend/js/ys-datatables.min.js"></script>
+
 <script src="/backend/plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
 <script src="/backend/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
@@ -57,6 +64,7 @@ var APP_URL = "{{(url('/'))}}";
 <script src="/backend/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/backend/dist/js/app.min.js"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 @if(Route::current()->uri() == 'admin/dashboard')
 <script src="/backend/dist/js/pages/dashboard.js"></script>
@@ -64,6 +72,37 @@ var APP_URL = "{{(url('/'))}}";
 <!-- AdminLTE for demo purposes -->
 <script src="/backend/dist/js/demo.js"></script>
 <script src="/backend/dist/js/custom.js"></script>
+<script>
+  	$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+    function renderSerialNumber(data, type, row, meta){
+      //return meta.row + meta.settings._iDisplayStart + 1;
+      return `<i class="fa fa-angle-double-down fa-sm text-success" >&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;${meta.row + meta.settings._iDisplayStart + 1} `
+    };
+    ( function(){
+      if( $("#viewtable")[0] ) {
 
+        vtable = $("#viewtable").YSDataTable({
+          removeButtons: {
+            target: ["colvis","copy"]
+          },
+          order: [[0, "desc"]],
+          responsive: true,
+          lengthMenu: [
+            [25, 50, 100, 200, 500, 1000, 10000, -1],
+            [25, 50, 100, 200, 500, 1000, 10000, "All"]
+          ],
+          fixedHeader: true,
+          dom:
+              '<"row width100 "<"col-sm-12 col-md-7 dataTables_pager flex-start" Bl><"col-sm-12 col-md-5 align-right"f>r>t<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7 dataTables_pager align-right"p>>'
+        });
+      }
+
+     
+    })();
+  </script>
 </body>
 </html>

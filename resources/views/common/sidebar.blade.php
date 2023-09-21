@@ -8,7 +8,7 @@
         
        
     
-        <li class="{{ (Route::current()->uri() == 'admin/settings') ? 'active' : ''  }}"><a href="{{ url('admin/settings') }}"><i class="fa fa-gears"></i><span>Settings</span></a></li>
+        <!-- <li class="{{ (Route::current()->uri() == 'admin/users') ? 'active' : ''  }}"><a href="{{ url('admin/users') }}"><i class="fa fa-users"></i><span>Users</span></a></li> -->
 
 
       </ul>

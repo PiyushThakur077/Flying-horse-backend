@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title> {{ config('app.name') }} | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -36,6 +37,8 @@
   <link href="{{ url('/backend/plugins/select2/select2.css') }}" rel="stylesheet" type="text/css" /> 
   <link href="{{ url('/backend/css/style.css') }}" rel="stylesheet" type="text/css" /> 
   <link href="{{ url('/front/css/wickedpicker.min.css') }}" rel="stylesheet" type="text/css" />
+
+  <link href="/backend/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -46,8 +49,8 @@
       .select2Custom{
         color: #000 !important;
       }
-
   </style>
+ 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

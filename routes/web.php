@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('admin/login');
+})->middleware('guest');
+
+
+Route::get('/login', function () {
+    return redirect('admin/login');
+})->middleware('guest');
+
+
+Route::get('admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login')->middleware('guest');;
+Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
+Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/home', function () {
+        return redirect('admin/dashboard');
+    });
+    Route::get('/admin/dashboard', function(){
+        return view('admin.users.view');
+    })->name('admin.dashboard');
+
+    Route::get('/admin/users', function(){
+        return view('admin.users.view');
+    })->name('users');
+
+    Route::post('/users/datatable',  [UserController::class, 'datatable'])->name('users.datatable');
 });

@@ -27,35 +27,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/register', 'RegisterController@register');
 
-Route::post('/login', [RegisterController::class, 'login']);
+Route::post('/login', 'RegisterController@login');
 
-Route::post('/google/login', [LoginController::class, 'login']);
+Route::post('/google/login', 'LoginController@login');
 
-Route::post('/resetOtp', [LoginController::class, 'sendResetOtpEmail']);
+Route::post('/resetOtp', 'LoginController@sendResetOtpEmail');
     
-Route::post('/verifyOtp', [LoginController::class, 'verifyOtp']);
+Route::post('/verifyOtp', 'LoginController@verifyOtp');
 
-Route::post('/resetPassword', [LoginController::class, 'resetPassword']);
+Route::post('/resetPassword', 'LoginController@resetPassword');
 
-Route::post('/changePassword', [LoginController::class, 'changePassword']);
+Route::post('/changePassword', 'LoginController@changePassword');
 
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::post('/logout', 'LoginController@logout');
 
-    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users', 'UserController@index');
 
-    Route::get('/user', [UserController::class, 'profile']);
+    Route::get('/user', 'UserController@profile');
 
-    Route::post('/updateStatus', [UserController::class, 'updateStatus']);
+    Route::post('/updateStatus', 'UserController@updateStatus');
 
-    Route::post('/stopTimer', [UserController::class, 'stopTimer']);
+    Route::post('/stopTimer', 'UserController@stopTimer');
 
-    Route::post('/user/{keyword}/search', [UserController::class, 'search']);
+    Route::post('/user/{keyword}/search', 'UserController@search');
 
-    Route::get('/logs', [UserStatusLogController::class, 'index']);
+    Route::get('/logs', 'UserStatusLogController@index');
 
 });
