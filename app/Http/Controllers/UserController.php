@@ -19,7 +19,8 @@ class UserController extends Controller
         ->addColumns([
             'actions' => function($data){
                 $deleteUrl = route('users.delete',$data->id);
-                return "<td><a href='#' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp;
+                return "<td><a title='View Status Logs'  href='#' class='btn btn-xs btn-info'><i class='glyphicon glyphicon-eye-open'></i></a>&nbsp;
+                <a href='#' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp
                 <a href=' $deleteUrl' class='btn btn-xs btn-danger delete-warning'>
                 <i class='glyphicon glyphicon-trash'></i></a></td>";
             }
