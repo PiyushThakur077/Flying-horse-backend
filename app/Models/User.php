@@ -57,6 +57,7 @@ class User extends Authenticatable
                 $join->on('user_status_logs.status_id','=','statuses.id')
                 ->whereDate('user_status_logs.date', date('Y-m-d'));
             })
+            ->where('users.role','!=', 'admin')
             ->selectRaw(
                 '
                     users.*,

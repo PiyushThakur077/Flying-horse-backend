@@ -38,6 +38,14 @@ class UserController extends Controller
 
             $user =  $this->user();
 
+            if(  $user->status_id )
+            {
+                UserStatusLog::where([
+                    'user_id' =>   $user->id,
+                    'status_id' =>  $user->status_id,
+                ])->whereNull('end_at')
+                ->update(['end_at' => date('Y-m-d H:i:s')]);
+            }
             $user->update(['status_id' => $request->status_id]);
 
             UserStatusLog::create([
@@ -66,13 +74,21 @@ class UserController extends Controller
 
             $user =  $this->user();
 
-            $user->update(['status_id' => null]);
+            $user->update(['status_id' => $request->status_id]);
 
             UserStatusLog::where([
                 'user_id' =>   $user->id,
-                'status_id' => $request->status_id,
+                'status_id' =>  $user->status_id,
                 'date' => date('Y-m-d')
             ])->update(['end_at' => date('Y-m-d H:i:s')]);
+
+            UserStatusLog::create([
+                'user_id' =>   $user->id,
+                'status_id' => $request->status_id,
+                'date' => date('Y-m-d'),
+                'started_at' => date('Y-m-d H:i:s')
+            ]);
+
             DB::commit();
             return $this->response('Status timer stoped successfully',   User::datatable()->where('users.id', $user->id)->first());
 

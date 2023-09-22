@@ -37,6 +37,7 @@ class UserStatusLogController extends Controller
             '
         )
         ->limit( $per_page )->offset( ( $page-1 ) * $per_page )
+        ->orderBy('id','desc')
         ->get();
 
         return $this->response( 'log details', [

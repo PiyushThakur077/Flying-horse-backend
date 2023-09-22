@@ -15,6 +15,14 @@ class UserController extends Controller
 
     public function datatable()
     {
-        return datatable(User::datatable())->init();
+        return datatable(User::datatable())
+        ->addColumns([
+            'actions' => function($data){
+                $deleteUrl = route('users.delete',$data->id);
+                return "<td><a href='#' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp;
+                <a href=' $deleteUrl' class='btn btn-xs btn-danger delete-warning'>
+                <i class='glyphicon glyphicon-trash'></i></a></td>";
+            }
+        ])->init();
     }
 }
