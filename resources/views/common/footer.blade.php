@@ -16,7 +16,7 @@
           <h4 class="modal-title">Confirm Delete</h4>
         </div>
         <div class="modal-body">
-          <p>You are about to delete one track, this procedure is irreversible.</p>
+          <p>You are about to delete one record, this procedure is irreversible.</p>
           <p>Do you want to proceed?</p>
         </div>
         <div class="modal-footer">

@@ -131,10 +131,23 @@ $(document).ready(function(){
 
     $(document).on('click', '.delete-warning', function(e){
         e.preventDefault();
-        var url = $(this).attr('href');
-        $('#delete-modal-yes').attr('href', url)
+        var form = $(this).data('form');
+        if( form ){
+            $('#delete-modal-yes').attr('data-form', form)
+        } else {
+            var url = $(this).attr('href');
+            $('#delete-modal-yes').attr('href', url)
+        }
         $('#delete-warning-modal').modal('show');
+      
     });
+    $(document).on('click', '#delete-modal-yes', function(e){
+        let form =  $(this).data('form')
+        if(  $(this).data('form')){
+            $(`#${form}`).submit();
+        }
+    })
+    
 });
 
 

@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('role')->default('user');
             $table->foreignId('status_id')->nullable();
             $table->string('device_id')->nullable();
             $table->string('provider')->nullable();
@@ -25,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('image')->nullable('/avatar.png');
+            $table->boolean('active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

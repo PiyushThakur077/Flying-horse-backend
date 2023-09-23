@@ -19,15 +19,20 @@ class UserController extends Controller
         return datatable(User::datatable())
         ->addColumns([
             'actions' => function($data){
-                $deleteUrl = route('users.delete',$data->id);
-                return "<td><a title='View Status Logs'  href='#' class='btn btn-xs btn-info'><i class='glyphicon glyphicon-eye-open'></i></a>&nbsp;
+                $csrf = csrf_field();
+                $deleteUrl = route('users.destroy',$data->id);
+                return "<td>
                 <a href='#' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp
-                <a href=' $deleteUrl' class='btn btn-xs btn-danger delete-warning'>
-                <i class='glyphicon glyphicon-trash'></i></a></td>";
+                <form method='post' id='deleteForm' action='$deleteUrl' style='display: inline'>
+                $csrf 
+                    <input type='hidden' name='_method' value='DELETE'>
+                <button type='submit' data-form='deleteForm' class='btn btn-xs btn-danger delete-warning'>
+                <i class='glyphicon glyphicon-trash'></i></button></form></td>";
             }
         ])->init();
     }
-   public function store(Request $request)
+
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -48,5 +53,19 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
+    }
+
+
+    public function destroy(Int $id)
+    {
+        $user = User::find($id);
+
+        if( $user ) {
+            $user->active = 0 ;
+            $user->update();
+
+            return back()->with('success', 'User Deleted Successfully');
+        }
+        return back()->with('error', 'User Not Found');
     }
 }
