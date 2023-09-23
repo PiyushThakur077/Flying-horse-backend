@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function(){
     })->name('users');
 
     Route::post('/users/datatable',  [UserController::class, 'datatable'])->name('users.datatable');
+    Route::post('/users/store',  [UserController::class, 'store'])->name('users.store');
     Route::post('/users/{id}',  [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}',  [UserController::class, 'delete'])->name('users.delete');
+
 });

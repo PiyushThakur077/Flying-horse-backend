@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('main')
+
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -10,7 +11,11 @@
       </h1>
       @include('common.breadcrumb')
     </section>
-
+    @if(session('success'))
+        <div class="alert alert-success" id="success-message">
+            {{ session('success') }}
+        </div>
+    @endif
     <!-- Main content -->
     <section class="content" style="min-height: 0px;">
       <div class="row">
@@ -19,7 +24,9 @@
             <div class="box-header">
               <h3 class="box-title">Add User</h3>
             </div>
-			<form >
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+  
             <!-- /.box-header -->
             <div class="box-body" style="min-height:80px">
 
@@ -28,19 +35,28 @@
 						<div class="col-sm-4">
 							<label class="col-sm-3 control-label"> Name <span style="color:red">*</span></label>
 							<div class="col-sm-9">
-								<input type="text" name="name" id="name" class="form-control" required>
+								<input type="text" name="name" id="name" class="form-control" >
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<label class="col-sm-3 control-label"> Email <span style="color:red">*</span></label>
 							<div class="col-sm-9">
-								<input type="email" name="email" id="email" class="form-control" required>
+								<input type="email" name="email" id="email" class="form-control" >
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
 							</div>
 						</div>
             <div class="col-sm-4">
 							<label class="col-sm-3 control-label"> Phone</label>
 							<div class="col-sm-9">
 								<input type="number" name="phone" class="form-control " id="phone" value="" placeholder="">
+                @error('phone')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
 							</div>
 						</div>
 					</div>
@@ -49,6 +65,9 @@
 							<label class="col-sm-3 control-label"> Image</label>
 							<div class="col-sm-9">
 								<input type="file" name="avatar" class="form-control " id="avatar" value="" placeholder="Photo">
+                @error('avatar')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
 							</div>
 						</div>
           </div>
@@ -127,5 +146,9 @@
 @endsection
 
 @push('scripts')
-
+  <script>
+      setTimeout(function() {
+          $('#success-message').fadeOut('fast');
+      }, 3000);
+  </script> 
 @endpush

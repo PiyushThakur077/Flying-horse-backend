@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -25,5 +26,27 @@ class UserController extends Controller
                 <i class='glyphicon glyphicon-trash'></i></a></td>";
             }
         ])->init();
+    }
+   public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+        ]);
+
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->image = $avatarPath;
+        $user->password = Hash::make('password');
+        $user->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
     }
 }
