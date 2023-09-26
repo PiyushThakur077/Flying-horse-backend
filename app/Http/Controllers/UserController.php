@@ -48,37 +48,57 @@ class UserController extends Controller
                 }
             ])->init();
     }
+
+    public function updateTeam(Request $request, $teamId)
+    {
+        $teamTitle = $request->input('teamTitle');
+        $selectedUsers = $request->input('selectedUsers');
+
+        $team = Team::find($teamId);
+
+        if (!$team) {
+            return response()->json(['error' => 'Team not found'], 404);
+        }
+
+        $team->title = $teamTitle;
+        $team->user_ids = json_encode($selectedUsers);
+        $team->save();
+
+        return response()->json(['message' => 'Team updated successfully']);
+    }
+    
+
+
     public function createTeam(Request $request)
-{
-    $teamTitle = $request->input('teamTitle');
-    $selectedUsers = $request->input('selectedUsers');
+    {
+        $teamTitle = $request->input('teamTitle');
+        $selectedUsers = $request->input('selectedUsers');
 
-    $serializedUsers = json_encode($selectedUsers);
+        $serializedUsers = json_encode($selectedUsers);
 
-    $team = new Team([
-        'title' => $teamTitle,
-        'user_ids' => $serializedUsers, 
-    ]);
+        $team = new Team([
+            'title' => $teamTitle,
+            'user_ids' => $serializedUsers, 
+        ]);
 
-    $team->save();
+        $team->save();
 
-    return response()->json(['message' => 'Team created successfully']);
-}
-
-public function showTeams()
-{
-    $teams = Team::all();
-
-    foreach ($teams as $team) {
-        $userIds = json_decode($team->user_ids);
-
-        $users = User::whereIn('id', $userIds)->get();
-
-        $team->users = $users;
+        return response()->json(['message' => 'Team created successfully']);
     }
 
-    return view('admin.teams.view', compact('teams'));
-}
+    public function showTeams()
+    {
+        $teams = Team::all();
+
+        foreach ($teams as $team) {
+            $userIds = json_decode($team->user_ids);
+
+            $users = User::whereIn('id', $userIds)->get();
+
+            $team->users = $users;
+        }
+        return view('admin.teams.view', compact('teams'));
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -147,5 +167,11 @@ public function showTeams()
         return redirect()->route('admin.dashboard')->with('success', 'User Updated successfully.');
     }
 
-
+    public function editTeam($id)
+    {
+        $team = Team::findOrFail($id);
+        $team->users = json_decode($team->user_ids);
+        return response()->json(['team' => $team]);
+    }
+    
 }
