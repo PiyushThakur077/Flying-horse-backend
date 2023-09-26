@@ -52,7 +52,7 @@
                               <div class="col-xs-8">{{ $user->phone }}</div>
                            </div>
                            @endforeach
-                           <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button>
+                           <button class="btn btn-primary pull-right" onclick="openEditModal('{{ $team->id }}')">Edit</button>
 
                         </div>
                      </div>
