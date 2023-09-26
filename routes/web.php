@@ -42,8 +42,13 @@ Route::group(['middleware' => 'auth'], function(){
     })->name('users');
 
     Route::post('/users/datatable',  [UserController::class, 'datatable'])->name('users.datatable');
+    Route::post('/users/data',  [UserController::class, 'userList'])->name('users.data');
     Route::post('/users/store',  [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::match(['put', 'post'], '/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}',  [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/admin/teams', function(){ return view('admin.teams.view'); })->name('admin.teams');
+    Route::post('/admin/teams/create', [UserController::class, 'createTeam'])->name('admin.teams.create');
+    Route::get('/admin/teams', [UserController::class, 'showTeams'])->name('admin.teams');
+
 });

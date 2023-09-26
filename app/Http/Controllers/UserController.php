@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -36,8 +37,48 @@ class UserController extends Controller
                 }
             ])->init();
     }
-    
 
+    public function userlist()
+    {
+        return datatable(User::datatable())
+            ->addColumns([
+                'name' => function ($data) {
+                    $checkbox = '<input type="checkbox" class="user-checkbox" value="' . $data->id . '">';
+                    return $checkbox . ' ' . $data->name;
+                }
+            ])->init();
+    }
+    public function createTeam(Request $request)
+{
+    $teamTitle = $request->input('teamTitle');
+    $selectedUsers = $request->input('selectedUsers');
+
+    $serializedUsers = json_encode($selectedUsers);
+
+    $team = new Team([
+        'title' => $teamTitle,
+        'user_ids' => $serializedUsers, 
+    ]);
+
+    $team->save();
+
+    return response()->json(['message' => 'Team created successfully']);
+}
+
+public function showTeams()
+{
+    $teams = Team::all();
+
+    foreach ($teams as $team) {
+        $userIds = json_decode($team->user_ids);
+
+        $users = User::whereIn('id', $userIds)->get();
+
+        $team->users = $users;
+    }
+
+    return view('admin.teams.view', compact('teams'));
+}
     public function store(Request $request)
     {
         $request->validate([

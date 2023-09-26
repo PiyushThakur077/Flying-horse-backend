@@ -4,7 +4,8 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
 
-        <li class="{{ (Route::current()->uri() == 'admin/dashboard') ? 'active' : ''  }}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+      <li class="{{ (Route::current()->uri() == 'admin/dashboard') ? 'active' : ''  }}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+        <li class="{{ (Route::current()->uri() == 'admin/teams') ? '' : ''  }}"><a href="{{ url('admin/teams') }}"><i class="fa fa-dashboard"></i><span>Teams</span></a></li>
         
        
     

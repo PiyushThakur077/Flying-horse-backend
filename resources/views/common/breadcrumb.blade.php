@@ -6,6 +6,7 @@
 						'admin/users' => array( 'admin/users' => 'Users' ),
 						'admin/add_user' => array( 'admin/users' => 'Users', 'admin/add_user' => 'Add User'),
 						'admin/edit_user' => array( 'admin/users' => 'Users', 'admin/edit_user' => 'Edit User'),
+						'admin/teams' => array( 'admin/teams' => 'Teams', 'admin/teams' => 'Teams'),
 					);
 		
 	$breadcrumb = isset($breadcrumbs[$breadcrumb])? $breadcrumbs[$breadcrumb]:'';
