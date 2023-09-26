@@ -17,21 +17,23 @@
    </style>
    <!-- Main content -->
    <section class="content">
-      <div class="row">
+      <div class="row box">
          <div class="col-xs-12">
-            <div class="box">
+         <div class="d-flex cstm_head">
+                  <h3 class="">Teams</h3>
+                  <div class="box-tools pull-right">
+                  <button class="btn btn-primary cstm_mrgn" data-toggle="modal" id="addTeamButton" data-target="#addTeamModal">Add Team</button>
+               </div>
+               </div>
+               
+            <div class="">
                <div class="alert alert-success" id="success-message">
                </div>
-               <div class="box-header">
-                  <h3 class="box-title">Teams</h3>
-               </div>
-               <div class="box-tools pull-right">
-                  <button class="btn btn-primary" data-toggle="modal" id="addTeamButton" data-target="#addTeamModal">Add Team</button>
-               </div>
+               
                <div class="row">
                   @foreach($teams as $team)
                   <div class="col-md-4">
-                     <div class="panel panel-default">
+                     <div class="panel panel-default"> 
                         <div class="panel-heading">{{ $team->title }}</div>
                         <div class="panel-body">
                            @foreach($team->users as $user)
@@ -41,7 +43,7 @@
                            </div>
                            <div class="row">
                               <div class="col-xs-4"><strong>Email:</strong></div>
-                              <div class="col-xs-8">{{ $user->email }}</div>
+                              <div class="col-xs-8 cstm_div">{{ $user->email }}</div>
                            </div>
                            <div class="row">
                               <div class="col-xs-4"><strong>Phone:</strong></div>

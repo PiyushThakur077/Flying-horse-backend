@@ -55,7 +55,17 @@
 .display-off{
   display: none;
 }
-
+.cstm_div{
+   word-wrap: break-word;
+}
+.cstm_mrgn{
+    margin: auto;
+}
+.cstm_head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+}
 .room-image-container200 {
     width: 100%;
     height: 200px;
