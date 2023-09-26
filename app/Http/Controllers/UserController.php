@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Team;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,6 +39,20 @@ class UserController extends Controller
                             </button>
                         </form>
                     </td>";
+                },
+                'timer' => function($data) {
+                    if( $data->started_at )
+                    {
+                        $to = Carbon::now();
+                        $from = Carbon::parse($data->started_at);
+                        $hours = $to->diffInHours($from);
+                        $minutes =  $to->diffInMinutes($from);
+                        $seconds =  $to->diffInSeconds($from) % 60 ;
+                        $date = date('Y-m-d : H:i:s', strtotime("$hours:$minutes:$seconds"));
+                        return "<span id='$data->id'></span><script>showTimer('$date', $data->id);</script>";
+                    }
+                    return "-";
+                  
                 }
             ])->init();
     }

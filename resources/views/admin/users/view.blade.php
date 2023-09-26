@@ -38,6 +38,7 @@
                         <th > Email </th>
                         <th > Phone </th>
                         <th > Status </th>
+                        <th > Timer </th>
                         <th data-name="created_at"> {{ __('Created At') }} </th>
                         <th > Actions </th>
                     </tr>

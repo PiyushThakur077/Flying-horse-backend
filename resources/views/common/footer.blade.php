@@ -47,6 +47,38 @@
 </div>
 @push('scripts')
 <script type="text/javascript">
+  function showTimer(timer,id){
+    if(timer ){
+      let date = new Date(timer);
+      let hrs = date.getHours();
+      let min = date.getMinutes();
+      let sec = date.getSeconds();
+      let ms = date.getMilliseconds();
+
+      let startTimer;
+      startTimer=setInterval(()=>{
+        ms++;//ms=ms+1;
+        if(ms==100){
+          sec++;
+          ms=0;
+        }
+        if(sec==60){
+          min++;
+          sec=0;
+        }
+        if(min==60){
+          hrs++;
+          min=0;
+        }
+        phrs=hrs<10?'0'+hrs:hrs;
+        pmin=min<10?'0'+min:min;
+        psec=sec<10?'0'+sec:sec;
+        pms=ms<10?'0'+ms:ms;
+
+        $(`#${id}`).html(`${phrs}:${pmin}:${psec}`); 
+      },10);
+    }
+  }
   $(document).on('click', '.delete-warning', function(e){
     e.preventDefault();
     var url = $(this).attr('href');
