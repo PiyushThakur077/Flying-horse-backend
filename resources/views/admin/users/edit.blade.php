@@ -6,7 +6,6 @@
     <section class="content-header">
       <h1>
         Users
-        <small>Control panel</small>
       </h1>
       @include('common.breadcrumb')
     </section>
@@ -66,8 +65,11 @@
                     </div>
 
 
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Confirm &amp; Submit</button>
+                    <div class="box-footer ">
+                      <div class="text-center" style="cursor: default;">
+                      <a href="{{route('users')}}" class="btn btn-default" >Back</a>&nbsp;
+                        <button type="submit" name="confirm" value="submit" class="btn btn-success" id="sub">Confirm &amp; Submit</button>
+                      </div>
                     </div>
                 </div>
             </form>

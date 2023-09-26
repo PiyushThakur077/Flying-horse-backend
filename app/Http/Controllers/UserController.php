@@ -14,6 +14,10 @@ class UserController extends Controller
         return view('admin.users.view');
     }
 
+    public function create()
+    {
+        return view('admin.users.create');
+    }
 
     public function datatable()
     {
