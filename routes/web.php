@@ -54,4 +54,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/admin/teams/edit/{id}', [UserController::class, 'editTeam'])->name('admin.teams.edit');
     Route::get('/users/list/{teamId}', [UserController::class, 'editList'])->name('users.list');
     Route::put('/admin/teams/update{teamId}', [UserController::class, 'updateTeam'])->name('admin.teams.update');
+    Route::delete('/admin/teams/delete/{teamId}', [UserController::class, 'deleteTeam'])->name('admin.teams.delete');
+
 });

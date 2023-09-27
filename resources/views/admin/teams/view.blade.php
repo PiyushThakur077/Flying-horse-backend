@@ -50,8 +50,8 @@
                               <div class="col-xs-8">{{ $user->phone }}</div>
                            </div>
                            @endforeach
-                           <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button>
-
+                           <!-- <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button> -->
+                           <button class="btn btn-danger" onclick="deleteTeam('{{ $team->id }}')">Delete</button>
                         </div>
                      </div>
                   </div>
@@ -255,5 +255,23 @@
         });
     }
 </script>
+
+<script>
+    function deleteTeam(teamId) {
+        if (confirm("Are you sure you want to delete this team?")) {
+            $.ajax({
+                url: "/admin/teams/delete/" + teamId,
+                type: "DELETE",
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting team:', error);
+                }
+            });
+        }
+    }
+</script>
+
 
 @endpush

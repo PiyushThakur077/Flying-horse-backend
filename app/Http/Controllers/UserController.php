@@ -118,6 +118,21 @@ class UserController extends Controller
         }
         return view('admin.teams.view', compact('teams'));
     }
+
+    public function deleteTeam($teamId)
+    {
+        $team = Team::find($teamId);
+
+        if (!$team) {
+            return response()->json(['error' => 'Team not found'], 404);
+        }
+
+        $team->delete();
+
+        return response()->json(['message' => 'Team deleted successfully']);
+    }
+
+
     public function store(Request $request)
     {
         $request->validate([
