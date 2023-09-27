@@ -49,6 +49,9 @@
       .select2Custom{
         color: #000 !important;
       }
+      .dataTables_wrapper .dataTables_paginate .paginate_button{
+        padding:0px !important
+      }
   </style>
  
 </head>

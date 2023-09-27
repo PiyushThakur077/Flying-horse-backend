@@ -55,6 +55,7 @@ class User extends Authenticatable
         return self::leftJoin('statuses','statuses.id','=','users.status_id')
             ->leftJoin('user_status_logs', function($join){
                 $join->on('user_status_logs.status_id','=','statuses.id')
+                    ->on('user_status_logs.user_id','=', 'users.id')
                 ->whereNull('user_status_logs.end_at');
             })
             ->where('users.active',1)

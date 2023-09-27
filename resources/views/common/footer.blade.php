@@ -47,13 +47,9 @@
 </div>
 @push('scripts')
 <script type="text/javascript">
-  function showTimer(timer,id){
-    if(timer ){
-      let date = new Date(timer);
-      let hrs = date.getHours();
-      let min = date.getMinutes();
-      let sec = date.getSeconds();
-      let ms = date.getMilliseconds();
+  function showTimer(hrs,min,sec,id){
+
+      let ms = 0;
 
       let startTimer;
       startTimer=setInterval(()=>{
@@ -77,7 +73,7 @@
 
         $(`#${id}`).html(`${phrs}:${pmin}:${psec}`); 
       },10);
-    }
+    
   }
   $(document).on('click', '.delete-warning', function(e){
     e.preventDefault();

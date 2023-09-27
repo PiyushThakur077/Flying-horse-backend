@@ -46,10 +46,9 @@ class UserController extends Controller
                         $to = Carbon::now();
                         $from = Carbon::parse($data->started_at);
                         $hours = $to->diffInHours($from);
-                        $minutes =  $to->diffInMinutes($from);
+                        $minutes =  $to->diffInMinutes($from) % 60;
                         $seconds =  $to->diffInSeconds($from) % 60 ;
-                        $date = date('Y-m-d : H:i:s', strtotime("$hours:$minutes:$seconds"));
-                        return "<span id='$data->id'></span><script>showTimer('$date', $data->id);</script>";
+                        return "<span id='$data->id'></span><script>showTimer($hours,$minutes,$seconds, $data->id);</script>";
                     }
                     return "-";
                   
