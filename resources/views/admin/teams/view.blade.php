@@ -25,11 +25,14 @@
                <div class="alert alert-success" id="success-message">
                </div>
                <div class="box-header">
+                  <div class="">
                   <h3 class="box-title">Teams</h3>
-               </div>
-               <div class="box-tools pull-right">
+                  </div>
+                  <div class="box-tools pull-right">
                   <button class="btn btn-primary" data-toggle="modal" id="addTeamButton" data-target="#addTeamModal">Add Team</button>
+                  </div>
                </div>
+
                <div class="row">
                   @foreach($teams as $team)
                   <div class="col-md-4">
@@ -37,18 +40,12 @@
                         <div class="panel-heading">{{ $team->title }}</div>
                         <div class="panel-body">
                            @foreach($team->users as $user)
-                           <div class="row">
-                              <div class="col-xs-4"><strong>Name:</strong></div>
-                              <div class="col-xs-8">{{ $user->name }}</div>
+                           <div class="row" style="margin:0px;">
+                              <div class="col-12">{{ $user->name }}</div>
+                              <div class="col-12">{{ $user->email }}</div>
+                              <div class="col-12">{{ $user->phone }}</div>
                            </div>
-                           <div class="row">
-                              <div class="col-xs-4"><strong>Email:</strong></div>
-                              <div class="col-xs-8">{{ $user->email }}</div>
-                           </div>
-                           <div class="row">
-                              <div class="col-xs-4"><strong>Phone:</strong></div>
-                              <div class="col-xs-8">{{ $user->phone }}</div>
-                           </div>
+                           <hr />
                            @endforeach
                            <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button>
                            <button class="btn btn-danger" onclick="deleteTeam('{{ $team->id }}')">Delete</button>

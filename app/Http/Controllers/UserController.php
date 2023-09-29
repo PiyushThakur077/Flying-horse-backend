@@ -66,7 +66,7 @@ class UserController extends Controller
                 }
             ])->init();
     }
-
+    
     public function updateTeam(Request $request, $teamId)
     {
         $teamTitle = $request->input('teamTitle');
