@@ -62,7 +62,7 @@ class UserController extends Controller
             ->addColumns([
                 'name' => function ($data) {
                     $checkbox = '<input type="checkbox" class="user-checkbox" value="' . $data->id . '">';
-                    return $checkbox . ' ' . $data->name;
+                    return $checkbox . ' ' . $data->name . ' ' . $data->id;
                 }
             ])->init();
     }
@@ -70,6 +70,7 @@ class UserController extends Controller
     public function updateTeam(Request $request, $teamId)
     {
         $teamTitle = $request->input('teamTitle');
+        $tmId = $request->input('tmId');
         $selectedUsers = $request->input('selectedUsers');
 
         $team = Team::find($teamId);
@@ -78,11 +79,15 @@ class UserController extends Controller
             return response()->json(['error' => 'Team not found'], 404);
         }
 
-        $team->title = $teamTitle;
-        $team->user_ids = json_encode($selectedUsers);
-        $team->save();
+        Team::where('id', $tmId)
+        ->update([
+            'title' => $teamTitle,
+            'user_ids' => json_encode($selectedUsers)
+        ]);
 
         return response()->json(['message' => 'Team updated successfully']);
+
+        dd($request);
     }
     
 

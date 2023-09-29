@@ -50,7 +50,7 @@
                               <div class="col-xs-8">{{ $user->phone }}</div>
                            </div>
                            @endforeach
-                           <!-- <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button> -->
+                           <button class="btn btn-primary" onclick="openEditModal('{{ $team->id }}')">Edit</button>
                            <button class="btn btn-danger" onclick="deleteTeam('{{ $team->id }}')">Delete</button>
                         </div>
                      </div>
@@ -116,6 +116,7 @@
             <div class="modal-body">
                <div class="form-group">
                   <label for="teamTitle">Team Title:</label>
+                  <input type="hidden" class="form-control teamId-edit/" id="teamId">
                   <input type="text" class="form-control teamTitle" id="teamTitlee" placeholder="Enter team title" required>
                </div>
                <div class="form-group">
@@ -203,34 +204,36 @@
        }
    });
    }
-   function updateTeam() {
-   var teamTitle = $('#teamTitlee').val();
-   var selectedUsers = [];
-   $('#editTeamModal .user-checkbox:checked').each(function() {
-       selectedUsers.push($(this).val());
-   });
-   if (selectedUsers.length > 2) {
-       alert("You can select only up to 2 users.");
-       return; 
-   }
-   
-   $.ajax({
-    url: "@isset($team){{ route('admin.teams.update', ['teamId' => $team->id]) }}@endisset",
-      type: "PUT",
-       data: {
-           teamTitle: teamTitle,
-           selectedUsers: selectedUsers
-       },
-       success: function(response) {
-           $('#editTeamModal').modal('hide');
-           $('#success-message').text(response.message);
-           $('#success-message').show();
-           window.location.href = "{{ route('admin.teams') }}";
-       },
-       error: function(xhr, status, error) {
-           console.error('Error creating team:', error);
-       }
-   });
+   function updateTeam(teamId) {
+      var teamTitle = $('#teamTitlee').val();
+      var tmId = $('#teamId').val();
+      var selectedUsers = [];
+      $('#editTeamModal .user-checkbox:checked').each(function() {
+         selectedUsers.push($(this).val());
+      });
+      if (selectedUsers.length > 2) {
+         alert("You can select only up to 2 users.");
+         return; 
+      }
+      
+      $.ajax({
+      url: "@isset($team){{ route('admin.teams.update', ['teamId' => $team->id]) }}@endisset",
+         type: "PUT",
+         data: {
+            tmId:tmId,
+            teamTitle: teamTitle,
+            selectedUsers: selectedUsers
+         },
+         success: function(response) {
+            $('#editTeamModal').modal('hide');
+            $('#success-message').text(response.message);
+            $('#success-message').show();
+            window.location.href = "{{ route('admin.teams') }}";
+         },
+         error: function(xhr, status, error) {
+            console.error('Error creating team:', error);
+         }
+      });
    }
 </script>
 <script>
@@ -240,7 +243,7 @@
             type: "GET",
             success: function(response) {
                 $('.teamTitle').val(response.team.title);
-
+                $('#teamId').val(teamId);
                 var selectedUsers = response.team.users;
                 $('.user-checkbox').prop('checked', false);
                 selectedUsers.forEach(function(userId) {
