@@ -7,6 +7,7 @@ use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\NewUserNotification;
 
 class UserController extends Controller
 {
@@ -157,6 +158,8 @@ class UserController extends Controller
         $user->password = Hash::make('password');
         $user->save();
 
+        $user->notify(new NewUserNotification($user));
+        
         return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
     }
 
