@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\NewUserNotification;
+use Illuminate\Support\Str;
+use App\Helpers\HelperFunctions;
 
 class UserController extends Controller
 {
@@ -149,20 +151,19 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
-
+        $randomPassword = HelperFunctions::generateRandomPassword(8);
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->image = $avatarPath;
-        $user->password = Hash::make('password');
+        $user->password = Hash::make($randomPassword);
         $user->save();
 
-        $user->notify(new NewUserNotification($user));
-        
+        $user->notify(new NewUserNotification($user, $randomPassword));
+
         return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
     }
-
 
     public function destroy(Int $id)
     {

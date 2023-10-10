@@ -10,11 +10,14 @@ use Illuminate\Notifications\Notification;
 class NewUserNotification extends Notification
 {
     private $user;
+    private $password;
 
-    public function __construct($user)
+    public function __construct($user, $password)
     {
         $this->user = $user;
+        $this->password = $password;
     }
+
 
     public function via($notifiable)
     {
@@ -24,10 +27,13 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Welcome to Our Application')
-            ->line('Hello ' . $this->user->name . ',')
-            ->line('Welcome to our application! Your account has been successfully created.')
-            ->line('Thank you for using our application.');
+        ->subject('Welcome to Our Application')
+        ->line('Hello ' . $this->user->name . ',')
+        ->line('Welcome to our application! Your account has been successfully created.')
+        ->line('Here are your login details:')
+        ->line('Email: ' . $this->user->email)
+        ->line('Password: ' . $this->password)
+        ->line('Thank you for using our application.');
     }
 
     public function toArray($notifiable)
