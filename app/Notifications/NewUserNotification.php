@@ -27,7 +27,7 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Welcome to Our Application')
+        ->subject('Flyinghorse')
         ->line('Hello ' . $this->user->name . ',')
         ->line('Welcome to our application! Your account has been successfully created.')
         ->line('Here are your login details:')
