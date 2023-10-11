@@ -76,8 +76,6 @@ class UserController extends Controller
             }
         }
 
-        \Illuminate\Support\Facades\Log::info(json_encode($extractedNumbers));
-
         return datatable(User::datatable())
             ->addColumns([
                 'name' => function ($data) use ($extractedNumbers) {
