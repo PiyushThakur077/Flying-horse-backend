@@ -59,13 +59,48 @@ class UserController extends Controller
             ])->init();
     }
 
-    public function userlist()
+   
+  public function userlist()
+    {
+        $teams = Team::all();
+        $userIdsArray = [];
+        foreach ($teams as $team) {
+            $userIdsArray[] = json_decode($team->user_ids);
+        }
+
+        $extractedNumbers = [];
+        foreach ($userIdsArray as $userIds) {
+            foreach ($userIds as $userId) {
+                $userId = str_replace(['\\', '"'], '', $userId);
+                $extractedNumbers[] = $userId;
+            }
+        }
+
+        \Illuminate\Support\Facades\Log::info(json_encode($extractedNumbers));
+
+        return datatable(User::datatable())
+            ->addColumns([
+                'name' => function ($data) use ($extractedNumbers) {
+                    $isDisabled = in_array($data->id, $extractedNumbers);
+                    $isChecked = $isDisabled ? 'checked' : '';
+                    $disabledClass = $isDisabled ? 'disabled-checkbox' : '';
+
+                    $checkbox = '<input type="checkbox" class="user-checkbox ' . $disabledClass . '" value="' . $data->id . '" ';
+                    $checkbox .= $isDisabled ? 'disabled ' : '';
+                    $checkbox .= $isChecked . '>';
+
+                    return $checkbox . ' ' . $data->name;
+                }
+            ])->init();
+    }
+
+    public function userlistedit()
     {
         return datatable(User::datatable())
             ->addColumns([
                 'name' => function ($data) {
                     $checkbox = '<input type="checkbox" class="user-checkbox" value="' . $data->id . '">';
-                    return $checkbox . ' ' . $data->name . ' ' . $data->id;
+                    return $checkbox . ' ' . $data->name;
                 }
             ])->init();
     }

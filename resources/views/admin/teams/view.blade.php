@@ -14,6 +14,11 @@
       #success-message {
       display:none;
       }
+      /* Apply styles when hovering over a row with a disabled checkbox */
+      #users-data tbody tr.disabled-checkbox {
+         background-color: #f0f0f0; /* Change this to the desired hover background color */
+      }
+
    </style>
 
 
@@ -160,7 +165,7 @@
            processing: true,
            serverSide: true,
            ajax: {
-               url: "{{ route('users.data') }}",
+               url: "{{ route('users.data.edit') }}",
                type: "POST"
            },
            columns: [
@@ -176,7 +181,9 @@
    var teamTitle = $('#teamTitle').val();
    var selectedUsers = [];
    $('#addTeamModal .user-checkbox:checked').each(function() {
-       selectedUsers.push($(this).val());
+      if (!$(this).is(':disabled')) {
+         selectedUsers.push($(this).val());
+      }
    });
    if (selectedUsers.length > 2) {
        alert("You can select only up to 2 users.");
@@ -206,7 +213,9 @@
       var tmId = $('#teamId').val();
       var selectedUsers = [];
       $('#editTeamModal .user-checkbox:checked').each(function() {
+          if (!$(this).is(':disabled')) {
          selectedUsers.push($(this).val());
+      }
       });
       if (selectedUsers.length > 2) {
          alert("You can select only up to 2 users.");

@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::post('/users/datatable',  [UserController::class, 'datatable'])->name('users.datatable');
     Route::post('/users/data',  [UserController::class, 'userList'])->name('users.data');
+    Route::post('/users/data/edit',  [UserController::class, 'userlistedit'])->name('users.data.edit');
     Route::get('/users/create',  [UserController::class, 'create'])->name('users.create');
     Route::post('/users/store',  [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
