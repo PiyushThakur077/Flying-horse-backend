@@ -147,6 +147,7 @@
 @endsection
 @push('scripts')
 <script>
+   var table1;
    $(document).ready(function() {
        $('#users-data').DataTable({
            processing: true,
@@ -161,7 +162,7 @@
                { data: 'phone', name: 'phone' },
            ]
        });
-       $('#users-data1').DataTable({
+       table1 = $('#users-data1').DataTable({
            processing: true,
            serverSide: true,
            ajax: {
@@ -174,9 +175,14 @@
                { data: 'phone', name: 'phone' },
            ]
        });
+
+
    });
 </script>
 <script>
+          $("#editTeamModal").on("hidden.bs.modal", function () {
+         table1.ajax.reload()
+});
    function createTeam() {
    var teamTitle = $('#teamTitle').val();
    var selectedUsers = [];
@@ -247,13 +253,14 @@
         $.ajax({
             url: "/admin/teams/edit/" + teamId,
             type: "GET",
+            async:false,
             success: function(response) {
                 $('.teamTitle').val(response.team.title);
                 $('#teamId').val(teamId);
                 var selectedUsers = response.team.users;
-                $('.user-checkbox').prop('checked', false);
                 selectedUsers.forEach(function(userId) {
-                    $('.user-checkbox[value="' + userId + '"]').prop('checked', true);
+                    $('.user-checkbox[value="' + userId + '"]').prop('checked', true)
+                    .attr('disabled',false);
                 });
 
                 $('#editTeamModal').modal('show');

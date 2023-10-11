@@ -94,9 +94,25 @@ class UserController extends Controller
 
     public function userlistedit()
     {
+        $teams = Team::all();
+        $userIdsArray = [];
+        foreach ($teams as $team) {
+            $userIdsArray= [ ... $userIdsArray, ... json_decode($team->user_ids)];
+        }
+       
+
         return datatable(User::datatable())
             ->addColumns([
-                'name' => function ($data) {
+                'name' => function ($data) use ($userIdsArray)  {
+                    $isDisabled = in_array($data->id, $userIdsArray);
+                    $isChecked = $isDisabled ? 'checked' : '';
+                    $disabledClass = $isDisabled ? 'disabled-checkbox' : '';
+
+                    $checkbox = '<input type="checkbox" class="user-checkbox ' . $disabledClass . '" value="' . $data->id . '" ';
+                    $checkbox .= $isDisabled ? 'disabled ' : '';
+                    $checkbox .= $isChecked . '>';
+
+                    return $checkbox . ' ' . $data->name;
                     $checkbox = '<input type="checkbox" class="user-checkbox" value="' . $data->id . '">';
                     return $checkbox . ' ' . $data->name;
                 }
