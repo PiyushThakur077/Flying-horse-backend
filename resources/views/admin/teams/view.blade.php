@@ -248,7 +248,7 @@
          selectedUsers.push($(this).val());
       }
       });
-      if (selectedUsers.length > 2) {
+      if (selectedUsers.length !== 2) {
          alert("You can select only up to 2 users.");
          return; 
       }
