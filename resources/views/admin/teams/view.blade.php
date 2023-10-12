@@ -11,14 +11,12 @@
       @include('common.breadcrumb')
    </section>
    <style>
-      #success-message {
+      .error {
+        border: 1px solid red;
+    }
+    #success-message {
       display:none;
       }
-      /* Apply styles when hovering over a row with a disabled checkbox */
-      #users-data tbody tr.disabled-checkbox {
-         background-color: #f0f0f0; /* Change this to the desired hover background color */
-      }
-
    </style>
 
 
@@ -77,7 +75,8 @@
             <div class="modal-body">
                <div class="form-group">
                   <label for="teamTitle">Team Title:</label>
-                  <input type="text" class="form-control teamTitle"  id="teamTitle" placeholder="Enter team title" required>
+                  <input type="text" class="form-control teamTitle"  id="teamTitle" placeholder="Enter team title" >
+                  <span id="teamTitleError" style="color: red;"></span>
                </div>
                <div class="form-group">
                   <label for="userList">Select Users:</label>
@@ -119,7 +118,8 @@
                <div class="form-group">
                   <label for="teamTitle">Team Title:</label>
                   <input type="hidden" class="form-control teamId-edit/" id="teamId">
-                  <input type="text" class="form-control teamTitle" id="teamTitlee" placeholder="Enter team title" required>
+                  <input type="text" class="form-control teamTitle" id="teamTitlee" placeholder="Enter team title" >
+                  <span id="teamEditError" style="color: red;"></span>
                </div>
                <div class="form-group">
                   <label for="userList">Select Users:</label>
@@ -180,21 +180,32 @@
    });
 </script>
 <script>
+
+   $('#teamTitle').on('keyup', function() {
+      $('#teamTitle').removeClass('error'); 
+        $('#teamTitleError').text('');
+    });
           $("#editTeamModal").on("hidden.bs.modal", function () {
-         table1.ajax.reload()
-});
-   function createTeam() {
-   var teamTitle = $('#teamTitle').val();
-   var selectedUsers = [];
-   $('#addTeamModal .user-checkbox:checked').each(function() {
-      if (!$(this).is(':disabled')) {
-         selectedUsers.push($(this).val());
-      }
-   });
-   if (selectedUsers.length > 2) {
-       alert("You can select only up to 2 users.");
-       return; 
+                  table1.ajax.reload()
+         });
+      function createTeam() {
+      var teamTitle = $('#teamTitle').val();
+         if (teamTitle.trim() === '') {
+            $('#teamTitle').addClass('error');
+            $('#teamTitleError').text('Team Title is required.');
+            return;
+         }
+      var selectedUsers = [];
+      $('#addTeamModal .user-checkbox:checked').each(function() {
+         if (!$(this).is(':disabled')) {
+            selectedUsers.push($(this).val());
+         }
+      });
+      if (selectedUsers.length !== 2) {
+         alert("You can select only up to 2 users.");
+         return;
    }
+
    
    $.ajax({
        url: "{{ route('admin.teams.create') }}",
@@ -214,10 +225,24 @@
        }
    });
    }
+   
+   $('#teamTitlee').on('keyup', function() {
+      $('#teamTitlee').removeClass('error'); 
+        $('#teamEditError').text('');
+    });
+
    function updateTeam(teamId) {
       var teamTitle = $('#teamTitlee').val();
+      if (teamTitle.trim() === '') {
+         $('#teamTitlee').addClass('error'); 
+         $('#teamEditError').text('Team Title is required.');
+         return;
+      }
+
       var tmId = $('#teamId').val();
       var selectedUsers = [];
+
+     
       $('#editTeamModal .user-checkbox:checked').each(function() {
           if (!$(this).is(':disabled')) {
          selectedUsers.push($(this).val());
