@@ -68,7 +68,7 @@
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title">Add Team</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
                </button>
             </div>
@@ -110,7 +110,7 @@
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title">Edit Team</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <button type="button" class="close" id="closeEdit" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
                </button>
             </div>
@@ -312,6 +312,14 @@
             });
         }
     }
+    $(document).ready(function() {
+      $('#editTeamModal .btn-secondary').click(function() {
+         window.location.href = "{{ route('admin.teams') }}";
+      });
+      $('#closeEdit').click(function() {
+         window.location.href = "{{ route('admin.teams') }}";
+      });
+   });
 </script>
 
 
