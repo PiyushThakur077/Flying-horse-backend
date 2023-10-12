@@ -75,7 +75,7 @@
             <div class="modal-body">
                <div class="form-group">
                   <label for="teamTitle">Team Title:</label>
-                  <input type="text" class="form-control teamTitle"  id="teamTitle" placeholder="Enter team title" >
+                  <input type="text" class="form-control "  id="teamTitle" placeholder="Enter team title" >
                   <span id="teamTitleError" style="color: red;"></span>
                </div>
                <div class="form-group">
@@ -185,16 +185,18 @@
       $('#teamTitle').removeClass('error'); 
         $('#teamTitleError').text('');
     });
-          $("#editTeamModal").on("hidden.bs.modal", function () {
-                  table1.ajax.reload()
-         });
-      function createTeam() {
+      $("#editTeamModal").on("hidden.bs.modal", function () {
+            table1.ajax.reload()
+   });
+
+
+   function createTeam() {
       var teamTitle = $('#teamTitle').val();
-         if (teamTitle.trim() === '') {
-            $('#teamTitle').addClass('error');
-            $('#teamTitleError').text('Team Title is required.');
-            return;
-         }
+      if (teamTitle.trim() === '') {
+         $('#teamTitle').addClass('error');
+         $('#teamTitleError').text('Team Title is required.');
+         return;
+      }
       var selectedUsers = [];
       $('#addTeamModal .user-checkbox:checked').each(function() {
          if (!$(this).is(':disabled')) {
@@ -204,26 +206,26 @@
       if (selectedUsers.length !== 2) {
          alert("You can select only up to 2 users.");
          return;
-   }
+      }
 
-   
-   $.ajax({
-       url: "{{ route('admin.teams.create') }}",
-       type: "POST",
-       data: {
-           teamTitle: teamTitle,
-           selectedUsers: selectedUsers
-       },
-       success: function(response) {
-           $('#addTeamModal').modal('hide');
-           $('#success-message').text(response.message);
-           $('#success-message').show();
-           window.location.href = "{{ route('admin.teams') }}";
-       },
-       error: function(xhr, status, error) {
-           console.error('Error creating team:', error);
-       }
-   });
+      
+      $.ajax({
+         url: "{{ route('admin.teams.create') }}",
+         type: "POST",
+         data: {
+            teamTitle: teamTitle,
+            selectedUsers: selectedUsers
+         },
+         success: function(response) {
+            $('#addTeamModal').modal('hide');
+            $('#success-message').text(response.message);
+            $('#success-message').show();
+            window.location.href = "{{ route('admin.teams') }}";
+         },
+         error: function(xhr, status, error) {
+            console.error('Error creating team:', error);
+         }
+      });
    }
    
    $('#teamTitlee').on('keyup', function() {
@@ -284,7 +286,7 @@
                 $('#teamId').val(teamId);
                 var selectedUsers = response.team.users;
                 selectedUsers.forEach(function(userId) {
-                    $('.user-checkbox[value="' + userId + '"]').prop('checked', true)
+                    $('#users-data1 .user-checkbox[value="' + userId + '"]').prop('checked', true)
                     .attr('disabled',false);
                 });
 
@@ -312,14 +314,7 @@
             });
         }
     }
-    $(document).ready(function() {
-      $('#editTeamModal .btn-secondary').click(function() {
-         window.location.href = "{{ route('admin.teams') }}";
-      });
-      $('#closeEdit').click(function() {
-         window.location.href = "{{ route('admin.teams') }}";
-      });
-   });
+  
 </script>
 
 
