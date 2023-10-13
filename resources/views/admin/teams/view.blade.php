@@ -47,6 +47,13 @@
                               <div class="col-12">{{ $user->name }}</div>
                               <div class="col-12">{{ $user->email }}</div>
                               <div class="col-12">{{ $user->phone }}</div>
+                              <div class="col-12">
+                              @if ($user->status)
+                                 Status: {{ $user->status['status'] }}
+                              @else
+                                 Status: N/A
+                              @endif
+                              </div>
                            </div>
                            <hr />
                            @endforeach

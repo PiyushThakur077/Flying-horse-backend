@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Team;
+use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -165,16 +166,19 @@ class UserController extends Controller
     public function showTeams()
     {
         $teams = Team::all();
-
         foreach ($teams as $team) {
             $userIds = json_decode($team->user_ids);
 
             $users = User::whereIn('id', $userIds)->get();
-
+            foreach ($users as $user) {
+                $status = Status::where('id', $user->status_id)->first();
+                $user->status = $status;
+            }
             $team->users = $users;
         }
         return view('admin.teams.view', compact('teams'));
     }
+
 
     public function deleteTeam($teamId)
     {
