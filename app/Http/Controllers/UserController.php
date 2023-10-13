@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\NewUserNotification;
+use App\Notifications\PasswordChange;
 use Illuminate\Support\Str;
 use App\Helpers\HelperFunctions;
 
@@ -235,28 +236,42 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+        {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'password' => 'nullable|min:6|confirmed',
+            ]);
 
-        $user = User::findOrFail($id);
+            $user = User::findOrFail($id);
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->phone = $request->input('phone');
 
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarPath = $avatar->storeAs('avatars', $id . '.' . $avatar->getClientOriginalExtension(), 'public');
-            $user->image = $avatarPath;
+            if ($request->has('password') && !empty($request->input('password'))) {
+                if ($request->input('password') !== $request->input('password_confirmation')) {
+                    return redirect()->back()->withInput();                
+                }
+                $user->password = Hash::make($request->input('password'));
+            }
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $avatarPath = $avatar->storeAs('avatars', $id . '.' . $avatar->getClientOriginalExtension(), 'public');
+                $user->image = $avatarPath;
+            }
+
+            $user->save();
+
+            if ($request->input('password')) {
+                $user->notify(new PasswordChange($user, $request->input('password')));
+            }
+
+
+            return redirect()->route('admin.dashboard')->with('success', 'User Updated successfully.');
         }
 
-        $user->save();
 
-        return redirect()->route('admin.dashboard')->with('success', 'User Updated successfully.');
-    }
 
     public function editTeam($id)
     {

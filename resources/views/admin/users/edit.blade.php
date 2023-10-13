@@ -9,7 +9,11 @@
       </h1>
       @include('common.breadcrumb')
     </section>
-
+<style>
+  #password_confirmation_row {
+    display: none;
+  }
+</style>
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -62,8 +66,28 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
 
+                         <div class="col-sm-4">
+                            <label class="col-sm-3 control-label"> Change Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" name="password" class="form-control" id="password" value="{{ old('password') }}" placeholder="New Password">
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                         <div class="col-sm-4" id="password_confirmation_row">
+                            <label class="col-sm-3 control-label">Confirm Password</label>
+                            <div class="col-sm-9">
+                              <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Confirm New Password">
+                                @error('password_confirmation')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div class="box-footer ">
                       <div class="text-center" style="cursor: default;">
@@ -79,3 +103,28 @@
     </section>
   </div>
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const passwordField = document.getElementById('password');
+        const passwordConfirmationRow = document.getElementById('password_confirmation_row');
+        passwordField.addEventListener('input', function() {
+            const password = this.value;
+            if (password) {
+                passwordConfirmationRow.style.display = 'block';
+            } else {
+                passwordConfirmationRow.style.display = 'none';
+            }
+        });
+    });
+    
+</script>
+<script>
+    const passwordError = "{{ $errors->has('password') || $errors->has('password_confirmation') }}";
+    const passwordConfirmationRow = document.getElementById('password_confirmation_row');
+
+    if (passwordError) {
+        passwordConfirmationRow.style.display = 'block';
+    }
+</script>
+@endpush
