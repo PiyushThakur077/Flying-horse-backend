@@ -9,7 +9,11 @@
       </h1>
       @include('common.breadcrumb')
     </section>
-
+<style>
+#password_div {
+  display: none;
+}
+</style>
     <!-- Main content -->
     <section class="content" style="min-height: 0px;">
       <div class="row">
@@ -62,6 +66,21 @@
                       @enderror
                     </div>
                   </div>
+                  <div class="col-sm-4">
+                    <label class="col-sm-3 control-label">Generate Random password</label>
+                    <div class="col-sm-9">
+                      <input type="checkbox" checked="checked" id="showPasswordCheckbox" onchange="togglePasswordField()">
+                    </div>
+                  </div>
+                  <div class="col-sm-4" id="password_div">
+                    <label class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" name="password" class="form-control" id="password" value="" placeholder="New Password">
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 </div>
               </div>
               <div class="box-footer">
@@ -77,3 +96,20 @@
     </section>
   </div>
 @endsection
+
+@push('scripts')
+<script>
+  
+  function togglePasswordField() {
+    const passwordField = document.getElementById('password_div');
+    const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
+
+    if (showPasswordCheckbox.checked) {
+      passwordField.style.display = 'none';
+    } else {
+      passwordField.style.display = 'block';
+    }
+  }
+  
+</script>
+@endpush

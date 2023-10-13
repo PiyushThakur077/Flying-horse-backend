@@ -192,22 +192,37 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        
+
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-        ]);
+        ];
+    
+        if ($request->filled('password')) {
+            $rules['password'] = 'nullable|min:8';
+        }
+
+        $request->validate($rules);
 
         $avatarPath = null;
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
         $randomPassword = HelperFunctions::generateRandomPassword(8);
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->image = $avatarPath;
-        $user->password = Hash::make($randomPassword);
+        
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        } else {
+            $user->password = Hash::make($randomPassword);
+        }
+
         $user->save();
 
         $user->notify(new NewUserNotification($user, $randomPassword));
@@ -240,7 +255,7 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
-                'password' => 'nullable|min:6|confirmed',
+                'password' => 'nullable|min:8|confirmed',
             ]);
 
             $user = User::findOrFail($id);
@@ -263,7 +278,7 @@ class UserController extends Controller
 
             $user->save();
 
-            if ($request->input('password')) {
+            if ($request->input('password') != '') {
                 $user->notify(new PasswordChange($user, $request->input('password')));
             }
 
