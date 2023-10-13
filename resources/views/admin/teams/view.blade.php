@@ -48,7 +48,7 @@
                               <div class="col-12">{{ $user->email }}</div>
                               <div class="col-12">{{ $user->phone }}</div>
                               <div class="col-12">
-                              @if ($user->status)
+                              @if ($user->status &&  $user->status['active'] == 1)
                                  Status: {{ $user->status['status'] }}
                               @else
                                  Status: N/A

@@ -201,6 +201,7 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
+            'phone' => 'nullable|numeric|digits:10',
         ];
     
         if ($request->filled('password')) {

@@ -49,7 +49,7 @@
                   <div class="col-sm-4">
                     <label class="col-sm-3 control-label"> Phone</label>
                     <div class="col-sm-9">
-                      <input type="number" name="phone" class="form-control " id="phone" value="" placeholder="">
+                      <input type="text" name="phone" class="form-control " id="phone" value="" placeholder="">
                       @error('phone')
                           <div class="text-danger">{{ $message }}</div>
                       @enderror
