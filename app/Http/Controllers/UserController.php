@@ -215,17 +215,20 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+
         $user->image = $avatarPath;
-        
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
+        if ($request->input('password') !== null && $request->input('password') !== '') {
+            $user->password = Hash::make($request->input('password'));
+            $passwordToSend = $request->input('password');
         } else {
             $user->password = Hash::make($randomPassword);
+            $passwordToSend = $randomPassword;
         }
+        
 
         $user->save();
 
-        $user->notify(new NewUserNotification($user, $randomPassword));
+        $user->notify(new NewUserNotification($user, $passwordToSend));
 
         return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
     }

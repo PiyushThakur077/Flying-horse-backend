@@ -111,5 +111,11 @@
     }
   }
   
+    const passwordError = "{{ $errors->has('password') }}";
+    const passwordErrorDisplay = document.getElementById('password_div');
+
+    if (passwordError) {
+      passwordErrorDisplay.style.display = 'block';
+    }
 </script>
 @endpush
