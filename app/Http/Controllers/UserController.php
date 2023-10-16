@@ -166,18 +166,25 @@ class UserController extends Controller
     public function showTeams()
     {
         $teams = Team::all();
+        
         foreach ($teams as $team) {
             $userIds = json_decode($team->user_ids);
-
-            $users = User::whereIn('id', $userIds)->get();
+            
+            $users = User::whereIn('id', $userIds)
+                          ->where('active', 1)
+                          ->get();
+    
             foreach ($users as $user) {
                 $status = Status::where('id', $user->status_id)->first();
                 $user->status = $status;
             }
+    
             $team->users = $users;
         }
+        
         return view('admin.teams.view', compact('teams'));
     }
+    
 
 
     public function deleteTeam($teamId)
@@ -201,7 +208,8 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'phone' => 'nullable|numeric|digits:10',
+            'phone' => 'nullable|numeric|digits:10|unique:users,phone',
+
         ];
     
         if ($request->filled('password')) {
@@ -263,6 +271,7 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
+                'phone' => 'nullable|numeric|digits:10|unique:users,phone,' . $id,
                 'password' => 'nullable|min:8|confirmed',
             ]);
 

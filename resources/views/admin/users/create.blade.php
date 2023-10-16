@@ -99,12 +99,14 @@
 
 @push('scripts')
 <script>
-  
+
+
   function togglePasswordField() {
     const passwordField = document.getElementById('password_div');
     const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
 
     if (showPasswordCheckbox.checked) {
+      pass.value = ''; 
       passwordField.style.display = 'none';
     } else {
       passwordField.style.display = 'block';
@@ -117,5 +119,15 @@
     if (passwordError) {
       passwordErrorDisplay.style.display = 'block';
     }
+
+    setInterval(function() {
+    const check = document.getElementById('showPasswordCheckbox');
+    const pass = document.getElementById('password');
+    
+    if (check.checked) {
+        pass.value = '';
+    }
+}, 1000);
+
 </script>
 @endpush
