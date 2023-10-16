@@ -203,48 +203,66 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        
-
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'phone' => 'nullable|numeric|digits:10|unique:users,phone',
-
+            'email' => 'required|email|unique:users,email,NULL,id,active,1',
+            'phone' => 'nullable|numeric|digits:10|unique:users,phone,NULL,id,active,1',
         ];
     
         if ($request->filled('password')) {
             $rules['password'] = 'nullable|min:8';
         }
-
+    
         $request->validate($rules);
-
+    
         $avatarPath = null;
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
+    
         $randomPassword = HelperFunctions::generateRandomPassword(8);
-
+    
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-
         $user->image = $avatarPath;
-        if ($request->input('password') !== null && $request->input('password') !== '') {
-            $user->password = Hash::make($request->input('password'));
-            $passwordToSend = $request->input('password');
+    
+        $existingUser = User::where('email', $request->email)
+        ->where('role', '!=', 'admin')
+        ->where('active', 0)
+        ->first();
+
+        if ($existingUser) {
+            $existingUser->active = 1;
+            $existingUser->name = $request->name;
+            $existingUser->phone = $request->phone;
+            $existingUser->image = $avatarPath;
+            $existingUser->save();
+    
+            if ($request->input('password') !== null && $request->input('password') !== '') {
+                $user->password = Hash::make($request->input('password'));
+                $passwordToSend = $request->input('password');
+            } else {
+                $user->password = Hash::make($randomPassword);
+                $passwordToSend = $randomPassword;
+            }
         } else {
-            $user->password = Hash::make($randomPassword);
-            $passwordToSend = $randomPassword;
+            if ($request->input('password') !== null && $request->input('password') !== '') {
+                $user->password = Hash::make($request->input('password'));
+                $passwordToSend = $request->input('password');
+            } else {
+                $user->password = Hash::make($randomPassword);
+                $passwordToSend = $randomPassword;
+            }
+            $user->save();
         }
-        
-
-        $user->save();
-
+    
         $user->notify(new NewUserNotification($user, $passwordToSend));
-
+    
         return redirect()->route('admin.dashboard')->with('success', 'User added successfully.');
     }
+    
 
     public function destroy(Int $id)
     {
