@@ -33,15 +33,15 @@ class UserController extends Controller
                     $csrf = csrf_field();
                     $editUrl = route('users.edit', $data->id);
                     $deleteUrl = route('users.destroy', $data->id);
-    
+                    $deleteFormId = 'deleteForm_' . $data->id;
                     return "<td>
                         <a href='$editUrl' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp
-                        <form method='post' id='deleteForm' action='$deleteUrl' style='display: inline'>
-                            $csrf 
-                            <input type='hidden' name='_method' value='DELETE'>
-                            <button type='submit' data-form='deleteForm' class='btn btn-xs btn-danger delete-warning'>
-                                <i class='glyphicon glyphicon-trash'></i>
-                            </button>
+                        <form method='post' id='$deleteFormId' action='$deleteUrl' style='display: inline'>
+                        $csrf 
+                        <input type='hidden' name='_method' value='DELETE'>
+                        <button type='submit' data-form='$deleteFormId' class='btn btn-xs btn-danger delete-warning'>
+                            <i class='glyphicon glyphicon-trash'></i>
+                        </button>
                         </form>
                     </td>";
                 },
