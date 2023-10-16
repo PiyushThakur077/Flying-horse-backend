@@ -40,16 +40,16 @@ class RegisterController extends Controller
         
             $user = $this->guard()->user();
 
-            // if ($user->active !== 1) {
+            if ($user->active !== 1) {
                 
-            //     $this->guard()->logout();
+                $this->guard()->logout();
         
-            //     return response()->json([
-            //         'success' => false,
-            //         'message' => 'User is not active. Please contact support.',
-            //         'data' => null
-            //     ]);
-            // }
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User is not active. Please contact support.',
+                    'data' => null
+                ]);
+            }
 
             $token = $user->createToken( $user->email )->plainTextToken;
             
