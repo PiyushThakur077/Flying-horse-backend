@@ -9,7 +9,7 @@
         Users
       </h1>
       @include('common.breadcrumb')
-    </section>
+    </section> 
     @if(session('success'))
         <div class="alert alert-success" id="success-message">
             {{ session('success') }}
