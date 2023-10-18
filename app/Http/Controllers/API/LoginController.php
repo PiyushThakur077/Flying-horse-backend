@@ -45,6 +45,13 @@ class LoginController extends Controller
             }
             else if( $request->device_id )
             {
+                if( !$user->active ) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Account is inactive/disabled',
+                        'data' => null
+                    ],400);
+                }
                 $user->device_id = $request->device_id;
                 $user->save();
             }
