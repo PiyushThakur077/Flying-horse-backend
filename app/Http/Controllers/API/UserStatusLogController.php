@@ -16,7 +16,7 @@ class UserStatusLogController extends Controller
         $page = $request->page ?? 1;
         $per_page = $request->per_page  ?? 10;
 
-        $logs = UserStatusLog::join('users', 'users.id','=','user_status_logs.user_id')
+        $query = UserStatusLog::join('users', 'users.id','=','user_status_logs.user_id')
         ->join('statuses', 'statuses.id','=','user_status_logs.status_id')
         ->when($date, function($q) use($date) {
             $q->whereDate('user_status_logs.date',$date);
@@ -35,15 +35,17 @@ class UserStatusLogController extends Controller
                 users.email as user_email,
                 users.phone as user_phone
             '
-        )
-        ->limit( $per_page )->offset( ( $page-1 ) * $per_page )
+        );
+        $q1 = clone  $query;
+        $logs = $q1->limit( $per_page )->offset( ( $page-1 ) * $per_page )
         ->orderBy('id','desc')
         ->get();
 
         return $this->response( 'log details', [
             'page' => $page,
             'per_page' =>  $per_page,
-            'result' => $logs
+            'result' => $logs,
+            'total' => $query->count()
         ]);
     }
 

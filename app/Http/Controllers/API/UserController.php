@@ -16,14 +16,21 @@ class UserController extends Controller
         $page = $request->page ?? 1;
         $per_page = $request->per_page  ?? 10;
 
-        $user =  User::datatable()->when( $per_page && $page, function($q) use($page,$per_page) {
+        $query = User::datatable();
+        $q1 = clone $query;
+        $user =  $q1->when( $per_page && $page, function($q) use($page,$per_page) {
             $q->limit( $per_page )->offset( ( $page-1 ) * $per_page );
         }) ->get();
 
-        return $this->response( 'users list' , $user);
+        return $this->response( 'users list' , [
+            'data' => $user,
+            'page' => $page,
+            'per_page' => $request->per_page,
+            'total' => $query->count()
+        ]);
     }
 
-    public function profile(){
+    public function profile() {
         $user =  User::datatable()->where('users.id', $this->userId())->first();
 
         return $this->response( 'user Details' , $user);
