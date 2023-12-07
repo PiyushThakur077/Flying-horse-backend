@@ -238,6 +238,7 @@ class UserController extends Controller
             $existingUser->name = $request->name;
             $existingUser->phone = $request->phone;
             $existingUser->image = $avatarPath;
+            $existingUser->status_id = null;
             $existingUser->save();
     
             if ($request->input('password') !== null && $request->input('password') !== '') {
