@@ -55,17 +55,6 @@ class LoginController extends Controller
                 $user->device_id = $request->device_id;
                 $user->save();
             }
-            if ($user->role !== 'admin') {
-                DB::rollback();
-                session()->put('message', 'You do not have permission to log in as an admin.');
-                session()->put('alert-class', 'alert-danger'); // You can customize the alert class
-                
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You do not have permission to log in as an admin.',
-                    'data' => null,
-                ], 403);
-            }
     
             $token = $user->createToken($user->provider_id)->plainTextToken;
     
