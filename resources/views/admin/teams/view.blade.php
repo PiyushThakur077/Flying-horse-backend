@@ -3,13 +3,13 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
-   <section class="content-header">
+<!--    <section class="content-header">
       <h1>
          Users
          <small>Control panel</small>
       </h1>
       @include('common.breadcrumb')
-   </section>
+   </section> -->
    <style>
       .error {
         border: 1px solid red;
@@ -27,8 +27,11 @@
             <div class="box">
                <div class="alert alert-success" id="success-message">
                </div>
-               <div class="box-header">
+               @include('common.breadcrumb')
+               <div class="box-header" style="border-bottom: 0px;">
+
                   <div class="">
+
                   <h3 class="box-title">Teams</h3>
                   </div>
                   <div class="box-tools pull-right">
@@ -44,16 +47,24 @@
                         <div class="panel-body">
                            @foreach($team->users as $user)
                            <div class="row" style="margin:0px;">
-                              <div class="col-12">{{ $user->name }}</div>
-                              <div class="col-12">{{ $user->email }}</div>
-                              <div class="col-12">{{ $user->phone }}</div>
+                              <div class="col-12  name-zr">{{ $user->name }}</div>
+                              <div class="col-12 email-zr">{{ $user->email }}</div>
+
+                              <div class="col-12 phone-zr"><label class="lbl-zr-mbno"> Mobile No. </label> @if(empty($user->phone)) Not provided @else {{ $user->phone }} @endif</div>
+
+
+
                               <div class="col-12">
+                                 <span>Status</span>
+                                 <span>
                               @if ($user->status &&  $user->status['active'] == 1)
-                                 Status: {{ $user->status['status'] }}
+                               {{ $user->status['status'] }}
                               @else
-                                 Status: N/A
-                              @endif
+                                 N/A
+                              @endif</span>
                               </div>
+
+
                            </div>
                            <hr />
                            @endforeach

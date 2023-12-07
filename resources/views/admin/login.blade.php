@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="/backend/dist/css/AdminLTE.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="/backend/plugins/iCheck/square/blue.css">
+  
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,6 +26,9 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <style>
+
+  </style>
 </head>
 <body class="hold-transition login-page">
 
@@ -34,15 +39,22 @@
   {{ Session::get('message') }}
   </div>
 @endif
+@if($errors->has('email'))
+  <div class="alert alert-danger custom_alert" role="alert">
+    {{ $errors->first('email') }}
+  </div>
+@endif
+
 </div>
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>{{config('app.name')}}</b></a>
+    <img src="/images/Full-Flyinghorse-logo.png">
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">LOGIN TO <span style="color:#03ae74"><strong>{{ config('app.name') }}</strong></span></p>
+    <p class="text-left login-hi">Hi There! </strong></span></p>
+    <p class="text-left login-text">Please login to your account</p>
 
     <form action="{{ url('admin/login') }}" method="post">
         @csrf
@@ -65,8 +77,9 @@
           </div>
         </div>
         <!-- /.col -->
+
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat red-0">Sign In</button>
         </div>
         <!-- /.col -->
       </div>

@@ -37,7 +37,7 @@
   <link href="{{ url('/backend/plugins/select2/select2.css') }}" rel="stylesheet" type="text/css" /> 
   <link href="{{ url('/backend/css/style.css') }}" rel="stylesheet" type="text/css" /> 
   <link href="{{ url('/front/css/wickedpicker.min.css') }}" rel="stylesheet" type="text/css" />
-
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   <link href="/backend/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
