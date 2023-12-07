@@ -4,7 +4,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
 
-      <li class="{{ (Route::current()->uri() == 'admin/dashboard') || (Route::current()->uri() == 'users/create')  ? 'active' : ''  }}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Users</span></a></li>
+      <li class="{{ (Route::current()->uri() == 'admin/dashboard') || (Route::current()->uri() == 'users/create') ||  Route::is('users.edit')  ? 'active' : ''  }}"><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i><span>Users</span></a></li>
         <li class="{{ (Route::current()->uri() == 'admin/teams') ? 'active' : ''  }}"><a href="{{ url('admin/teams') }}"><i class="fa fa-users"></i><span>Teams</span></a></li>
         
        
@@ -16,4 +16,3 @@
     </section>
     <!-- /.sidebar -->
 </aside>
-

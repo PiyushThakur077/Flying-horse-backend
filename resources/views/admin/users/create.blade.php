@@ -136,7 +136,7 @@
   if (passwordError) {
     passwordErrorDisplay.style.display = 'block';
     var showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
-    showPasswordCheckbox.checked===false;
+    showPasswordCheckbox.checked = false;
   }
   setInterval(function() {
     const check = document.getElementById('showPasswordCheckbox');
@@ -152,12 +152,10 @@
     var toggleIcon = document.querySelector('.toggle-password');
     if (passwordInput.type === 'password') {
       passwordInput.type = 'text';
-      toggleIcon.innerHTML = ' < i class = "fa fa-eye"
-      aria - hidden = "true" > < /i>';
+      toggleIcon.innerHTML = ' < i class = "fa fa-eye" aria - hidden = "true" > < /i>';
     } else {
       passwordInput.type = 'password';
-      toggleIcon.innerHTML = ' < i class = "fa fa-eye-slash"
-      aria - hidden = "true" > < /i>';
+      toggleIcon.innerHTML = ' < i class = "fa fa-eye-slash" aria - hidden = "true" > < /i>';
     }
   }
 </script> @endpush
