@@ -81,6 +81,18 @@ class RegisterController extends Controller
     }
 
 
+        /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only($this->username(), 'password'),['active' => 1, 'role' => 'user']);
+    }
+
+
     /**
      * Get the needed authorization credentials from the request.
      *

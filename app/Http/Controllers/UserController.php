@@ -12,6 +12,9 @@ use App\Notifications\NewUserNotification;
 use App\Notifications\PasswordChange;
 use Illuminate\Support\Str;
 use App\Helpers\HelperFunctions;
+use App\Models\TeamUser;
+use App\Models\UserStatusLog;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -34,12 +37,13 @@ class UserController extends Controller
                     $editUrl = route('users.edit', $data->id);
                     $deleteUrl = route('users.destroy', $data->id);
                     $deleteFormId = 'deleteForm_' . $data->id;
+                    $isTemMember  = TeamUser::where('user_id', $data->id)->exists();
                     return "<td>
                         <a href='$editUrl' class='btn btn-xs btn-primary'><i class='glyphicon glyphicon-edit'></i></a>&nbsp
                         <form method='post' id='$deleteFormId' action='$deleteUrl' style='display: inline'>
                         $csrf 
                         <input type='hidden' name='_method' value='DELETE'>
-                        <button type='submit' data-form='$deleteFormId' class='btn btn-xs btn-danger delete-warning'>
+                        <button type='submit'  data-team='$isTemMember' data-form='$deleteFormId' class='btn btn-xs btn-danger delete-warning'>
                             <i class='glyphicon glyphicon-trash'></i>
                         </button>
                         </form>
@@ -133,15 +137,15 @@ class UserController extends Controller
             return response()->json(['error' => 'Team not found'], 404);
         }
 
-        Team::where('id', $tmId)
-        ->update([
+        $team = Team::where('id', $tmId)->first();
+        $team->update([
             'title' => $teamTitle,
             'user_ids' => json_encode($selectedUsers)
         ]);
 
-        return response()->json(['message' => 'Team updated successfully']);
+        $team->users()->sync($selectedUsers);
 
-        dd($request);
+        return response()->json(['message' => 'Team updated successfully']);
     }
     
 
@@ -152,13 +156,23 @@ class UserController extends Controller
         $selectedUsers = $request->input('selectedUsers');
 
         $serializedUsers = json_encode($selectedUsers);
+        DB::beginTransaction();
+        try {
+            $team = new Team([
+                'title' => $teamTitle,
+                'user_ids' => $serializedUsers, 
+            ]);
+    
+            $team->save();
+    
+            $team->users()->sync($selectedUsers);
 
-        $team = new Team([
-            'title' => $teamTitle,
-            'user_ids' => $serializedUsers, 
-        ]);
-
-        $team->save();
+            DB::commit();
+        } catch( \Exception $e ){
+            DB::rollBack();
+            return response()->json(['message' => 'Something Went Wrong Please try again'],500);
+        }
+      
 
         return response()->json(['message' => 'Team created successfully']);
     }
@@ -195,7 +209,10 @@ class UserController extends Controller
             return response()->json(['error' => 'Team not found'], 404);
         }
 
+        TeamUser::where('team_id', $team->id)->delete();
+
         $team->delete();
+
 
         return response()->json(['message' => 'Team deleted successfully']);
     }
@@ -269,10 +286,23 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if( $user ) {
-            $user->active = 0 ;
-            $user->update();
-
+        if( $user ) 
+        {
+            DB::beginTransaction();
+            try {
+                $teams = TeamUser::where('user_id', $id)->pluck('team_id');
+                TeamUser::whereIn('team_id',  $teams)->delete();
+                Team::whereIn('id', $teams )->delete();
+                // UserStatusLog::where('user_id', $id)->delete();
+                $user->tokens()->delete();
+                $user->status_id = null;
+                $user->active = 0 ;
+                $user->update();
+                DB::commit();
+            } catch( \Exception $e ) {
+                DB::rollBack();
+                return back()->with('error', 'Something went wrong, please try again');
+            } 
             return back()->with('success', 'User Deleted Successfully');
         }
         return back()->with('error', 'User Not Found');
