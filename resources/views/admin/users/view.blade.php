@@ -36,13 +36,13 @@
                     <tr>
                         <th visible=false search=false sort=false export=false data-name="created_at" > {{ __('Created At') }}</th>
                         <th data-render=renderSerialNumber search=false sort=false export=false data-name="sr_no"> {{ __('S No') }}</th>
-                        <th data-name="name">Name </th>
-                        <th > Email </th>
-                        <th > Phone </th>
-                        <th > Status </th>
-                        <th > Timer </th>
-                        <th data-name="created_at"> {{ __('Created At') }} </th>
-                        <th > Actions </th>
+                        <th sort=false data-name="name">Name </th>
+                        <th sort=false > Email </th>
+                        <th sort=false> Phone </th>
+                        <th sort=false> Status </th>
+                        <th sort=false> Timer </th>
+                        <th sort=false data-name="created_at"> {{ __('Created At') }} </th>
+                        <th sort=false > Actions </th>
                     </tr>
                     </thead>
                     <tbody>
