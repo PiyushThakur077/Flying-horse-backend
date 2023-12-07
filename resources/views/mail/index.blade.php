@@ -107,7 +107,7 @@
                     <tr style="margin-bottom: 6%;">
                         <td class="header" style="padding: 25px 0; text-align: center">
                             <a href="{{url('/')}}">
-                                <img src="{{ url('/logo.jpeg') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
+                                <img src="{{ url('/logo.png') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
                             </a>
                         </td>
                     </tr>

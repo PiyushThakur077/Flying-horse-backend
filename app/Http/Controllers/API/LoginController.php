@@ -24,7 +24,10 @@ class LoginController extends Controller
         ]);
 
 
-        $user = User::where('provider_id', $request->provider_id)->first();
+        $user = User::where([
+            'provider_id' => $request->provider_id,
+            'active' => 1
+        ])->first();
 
         DB::beginTransaction();
         try 

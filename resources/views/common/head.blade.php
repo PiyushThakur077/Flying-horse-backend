@@ -52,6 +52,10 @@
       .dataTables_wrapper .dataTables_paginate .paginate_button{
         padding:0px !important
       }
+
+      .content-wrapper {
+        height: 100vh !important;
+      }
   </style>
  
 </head>

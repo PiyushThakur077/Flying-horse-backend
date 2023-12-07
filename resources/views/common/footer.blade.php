@@ -15,8 +15,9 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Confirm Delete</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="delete-text">
           <p>You are about to delete one record, this procedure is irreversible.</p>
+          <p id="team-text"></p>
           <p>Do you want to proceed?</p>
         </div>
         <div class="modal-footer">
@@ -26,25 +27,7 @@
       </div>
     </div>
 </div>
-<div class="modal fade" id="refund-warning-modal" role="dialog" style="z-index:1060;">
-    <div class="modal-dialog" >
-      <!-- Modal content-->
-      <div class="modal-content" style="width:100%;height:100%">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Confirm Security fee refund</h4>
-        </div>
-        <div class="modal-body">
-          <p>You are about to make a refund for the security fee to the renter. Please make sure the item is returned to the Lister, before sharing the security refund.</p>
-          <p>Do you want to proceed?</p>
-        </div>
-        <div class="modal-footer">
-        	<a class="btn btn-danger" id="refund-modal-yes" href="javascript:void(0)">Yes</a>
-          	<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-</div>
+
 @push('scripts')
 <script type="text/javascript">
   function showTimer(hrs,min,sec,id){
@@ -77,6 +60,11 @@
   }
   $(document).on('click', '.delete-warning', function(e){
     e.preventDefault();
+    if( $(this).data('team') ) {
+      $('#team-text').html("<span style='color:red'>Note*  User is also a part of a team, the team will also get deleted </span> ")
+    } else {
+      $('#team-text').empty()
+    }
     var url = $(this).attr('href');
     $('#delete-modal-yes').attr('href', url)
     $('#delete-warning-modal').modal('show');
