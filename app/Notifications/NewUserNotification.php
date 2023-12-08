@@ -27,7 +27,7 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('New Invoice')
+        ->subject('User Credentials')
         ->view( 'mail.new-user', ['name' => $this->user->name, 'email'=> $this->user->email, 'password' => $this->password]);
         return (new MailMessage)
         ->subject('Flyinghorse')

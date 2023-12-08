@@ -100,24 +100,29 @@
         }
     </style>
     
-        <table class="wrapper" width="100%">
+        <table class="wrapper" width="100%"  style="background-color: #edf2f7;">
         <tr>
             <td align="center" >
-                <table class="content" width="100%">
-                    <tr style="margin-bottom: 6%;">
+                <table class="content" width="100%"  style="background-color: #fff;">
+                   <!--  <tr style="margin-bottom: 6%;">
                         <td class="header" style="padding: 25px 0; text-align: center">
                             <a href="{{url('/')}}">
-                                <img src="{{ url('/logo.png') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
+                                <img src="{{ asset('images/logo1.png') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
                             </a>
                         </td>
-                    </tr>
-                    
+                    </tr> -->
                     <!-- Email Body -->
                     <tr>
                         <td class="body" width="100%" cellpadding="0" cellspacing="0" >
                             <table class="inner-body" align="center" width="670" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 6%" >
                                 <!-- Body content -->
-                                
+                                <tr>
+                                    <td class="header" style="padding: 25px 0; text-align: center">
+                            <a href="{{url('/')}}">
+                                <img src="{{ asset('images/logo1.png') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
+                            </a>
+                        </td>
+                                </tr>
                                 <tr>
                                     @yield('mail')
                                 </tr>
