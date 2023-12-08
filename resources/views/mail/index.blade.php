@@ -103,7 +103,7 @@
         <table class="wrapper" width="100%"  style="background-color: #edf2f7;">
         <tr>
             <td align="center" >
-                <table class="content" width="100%"  style="background-color: #fff;">
+                <table class="content" width="100%" >
                    <!--  <tr style="margin-bottom: 6%;">
                         <td class="header" style="padding: 25px 0; text-align: center">
                             <a href="{{url('/')}}">
@@ -114,13 +114,13 @@
                     <!-- Email Body -->
                     <tr>
                         <td class="body" width="100%" cellpadding="0" cellspacing="0" >
-                            <table class="inner-body" align="center" width="670" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 6%" >
+                            <table class="inner-body" align="center" width="670" cellpadding="0" cellspacing="0" role="presentation" style="margin-top: 4%; margin-bottom: 4%;" >
                                 <!-- Body content -->
                                 <tr>
-                                    <td class="header" style="padding: 25px 0; text-align: center">
-                            <a href="{{url('/')}}">
+                                    <td class="header" style=" text-align: center">
+                            <!-- <a href="{{url('/')}}">
                                 <img src="{{ asset('images/logo1.png') }}" class="logo" alt="{{config('app.name')}} Logo" style=" height: 85px; width: 150px;">
-                            </a>
+                            </a> -->
                         </td>
                                 </tr>
                                 <tr>
