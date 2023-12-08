@@ -13,7 +13,7 @@
             </h3>
             <p> Here are your login details: </p>
             <p> Email: {{$email}}</p>
-            <p> Email: {{$password}}</p>
+            <p> Password: {{$password}}</p>
             <p> Thank you for using our application</p>
         </tr>
     </table>
