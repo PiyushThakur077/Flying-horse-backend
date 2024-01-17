@@ -33,7 +33,7 @@
                     table-checkable dataTable no-footer dtr-inline" id="viewtable"
                     data-source='{"url": "{{route("users.datatable")}}","type": "POST"}' >
                     <thead>
-                    <tr>
+                    <tr class="zr-user-head">
                         <th visible=false search=false sort=true export=false data-name="created_at">{{ __('Created At') }}</th>
                         <th data-render=renderSerialNumber search=false sort=true export=false data-name="sr_no">{{ __('S No') }}</th>
                         <th sort=true>Name </th>
