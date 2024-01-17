@@ -200,3 +200,6 @@
     color: #333333;
     font-weight: 500;
     }
+    .zr-user-head th {
+        padding: 8px 10px !important;
+    }

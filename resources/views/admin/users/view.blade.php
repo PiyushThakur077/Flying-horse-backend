@@ -33,16 +33,17 @@
                     table-checkable dataTable no-footer dtr-inline" id="viewtable"
                     data-source='{"url": "{{route("users.datatable")}}","type": "POST"}' >
                     <thead>
-                    <tr>
-                        <th visible=false search=false sort=false export=false data-name="created_at" > {{ __('Created At') }}</th>
-                        <th data-render=renderSerialNumber search=false sort=false export=false data-name="sr_no"> {{ __('S No') }}</th>
-                        <th sort=false data-name="name">Name </th>
-                        <th sort=false > Email </th>
-                        <th sort=false> Phone </th>
-                        <th sort=false> Status </th>
-                        <th sort=false> Timer </th>
-                        <th sort=false data-name="created_at"> {{ __('Created At') }} </th>
-                        <th sort=false > Actions </th>
+                    <tr class="zr-user-head">
+                        <th visible=false search=false sort=true export=false data-name="created_at">{{ __('Created At') }}</th>
+                        <th data-render=renderSerialNumber search=false sort=true export=false data-name="sr_no">{{ __('S No') }}</th>
+                        <th sort=true>Name </th>
+                        <th sort=true>Email </th>
+                        <th sort=true>Phone </th>
+                        <th sort=true>Status </th>
+                        <th sort=true>Team Name </th>
+                        <th sort=true>Timer </th>
+                        <th sort=true data-name="created_at">{{ __('Created At') }} </th>
+                        <th sort=false >Actions </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -59,9 +60,20 @@
 @endsection
 
 @push('scripts')
+  
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" ></script>
+  
+</script>
   <script>
       setTimeout(function() {
           $('#success-message').fadeOut('fast');
       }, 3000);
+
+
+
+      // new DataTable('#viewtable', {
+      //     order: [[3, 'desc']]
+      // });
   </script> 
 @endpush

@@ -61,7 +61,16 @@ class UserController extends Controller
                     }
                     return "-";
                   
-                }
+                },
+                'team_name' => function ($data) {
+                    $teams = TeamUser::where('user_id', $data->id)
+                        ->with('team')
+                        ->get();
+    
+                    $teamNames = $teams->pluck('team.title')->implode(', ');
+    
+                    return $teamNames;
+                },
             ])->init();
     }
 
