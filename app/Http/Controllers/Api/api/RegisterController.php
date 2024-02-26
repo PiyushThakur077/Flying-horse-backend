@@ -89,6 +89,7 @@ class RegisterController extends Controller
      */
     protected function credentials(Request $request)
     {
+dd(array_merge($request->only($this->username(), 'password'),['active' => 1, 'role' => 'user']));
         return array_merge($request->only($this->username(), 'password'),['active' => 1, 'role' => 'user']);
     }
 
